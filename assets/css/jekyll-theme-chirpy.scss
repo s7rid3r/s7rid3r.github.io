@@ -1,0 +1,94 @@
+---
+---
+
+@use 'abstracts/variables' with (
+  $theme: '{{ site.theme_mode }}'
+);
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* append your custom style below */
+
+/* Red accent. Backgrounds and body text stay as Chirpy ships them. */
+
+@mixin red-dark {
+  --accent: #f25555; /* 5.1:1 on the dark background, passes WCAG AA */
+  --accent-hover: #ff7a7a;
+  --link-color: var(--accent);
+  --link-underline-color: rgb(242 85 85 / 40%);
+  --site-title-color: var(--accent);
+  --sidebar-active-color: var(--accent);
+  --avatar-border-color: rgb(242 85 85 / 75%);
+  --toc-highlight: var(--accent);
+  --tag-border: rgb(122 48 48);
+  --tag-hover: rgb(110 28 28 / 55%);
+  --blockquote-border-color: rgb(150 45 45);
+  --footnote-target-bg: rgb(110 28 28);
+  --input-focus-border-color: rgb(160 55 55);
+  --checkbox-checked-color: var(--accent);
+  --timeline-node-bg: var(--accent);
+}
+
+@mixin red-light {
+  --accent: #c62828; /* 5.6:1 on white, passes WCAG AA */
+  --accent-hover: #8e1b1b;
+  --link-color: var(--accent);
+  --link-underline-color: rgb(198 40 40 / 35%);
+  --site-title-color: var(--accent);
+  --sidebar-active-color: var(--accent);
+  --toc-highlight: var(--accent);
+  --tag-border: rgb(232 190 190);
+  --tag-hover: rgb(251 228 228);
+  --blockquote-border-color: rgb(220 150 150);
+  --checkbox-checked-color: var(--accent);
+  --timeline-node-bg: var(--accent);
+}
+
+:root[data-bs-theme='dark'] {
+  @include red-dark;
+}
+
+:root[data-bs-theme='light'] {
+  @include red-light;
+}
+
+:root:not([data-bs-theme]) {
+  @media (prefers-color-scheme: dark) {
+    @include red-dark;
+  }
+
+  @media (prefers-color-scheme: light) {
+    @include red-light;
+  }
+}
+
+/* Chirpy hard-codes an orange link hover; make it the red accent instead. */
+.content a:not(.img-link):hover,
+.post-meta a:not([class]):hover,
+footer a:hover,
+#breadcrumb a:hover,
+#access-lastmod a:hover {
+  color: var(--accent-hover) !important;
+  border-bottom-color: var(--accent-hover) !important;
+}
+
+/* Active sidebar item gets a red edge as well as red text. */
+#sidebar .nav .nav-item.active .nav-link {
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+/* Post titles on the home page turn red on hover. */
+#post-list .card-wrapper:hover .card-title {
+  color: var(--accent) !important;
+}
+
+/* Trending tags and post tags pick up the red edge. */
+.post-tag:hover,
+.post-tags .post-tag:hover {
+  color: var(--accent);
+}
